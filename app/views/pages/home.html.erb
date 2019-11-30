@@ -1,2 +1,22 @@
 <h1>Pages#home</h1>
 <p>Find me in app/views/pages/home.html.erb</p>
+
+<% @events.each do |e| %>
+<%= e.title %>
+<span><i class="far fa-star"></i>
+<i class="fas fa-star"></i>
+
+
+</span>
+  <% if current_user%>
+    <% binding.pry%>
+    <% user_event = UserEvent.find_or_initialize_by(event: e, user: current_user) %>
+    <%= simple_form_for(user_event) do |f| %>
+      <% f.association :user, as: :hidden %>
+      <% f.association :event, as: :hidden %>
+      <%= button_tag  do %>
+        <i class="far fa-star"></i>
+      <% end %>
+    <% end %>
+  <% end%>
+<% end%>
